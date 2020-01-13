@@ -4,7 +4,7 @@ Feature: Contacting people is very important
 
   Interpreted literally
 
-  Scenario: Show a contact's  job titles
+  Scenario: Show a contact's job titles
     Given I request "/contact_roles?contact_id=1" using HTTP GET
     Then the response code is 200
     And the response body is:
