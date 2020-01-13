@@ -1,0 +1,12 @@
+# behat.yml
+
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext
+                - Imbo\BehatApiExtension\Context\ApiContext
+    extensions:
+        Imbo\BehatApiExtension:
+            apiClient:
+                base_uri: http://symfony4.local:8888
