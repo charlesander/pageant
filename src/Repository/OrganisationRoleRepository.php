@@ -36,6 +36,7 @@ class OrganisationRoleRepository extends ServiceEntityRepository
             $query->andWhere('o.contact = :contact_id')
                 ->setParameter('contact_id', (int)$search['contact_id']);
         }
+        $query->orderBy('o.created_at');
 
         return $query->getQuery()
             ->getResult();
