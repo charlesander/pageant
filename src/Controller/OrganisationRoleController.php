@@ -5,9 +5,8 @@ namespace App\Controller;
 use App\Repository\OrganisationRoleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
 
 
 class OrganisationRoleController extends AbstractController
@@ -26,13 +25,14 @@ class OrganisationRoleController extends AbstractController
     /**
      * @Route("/organisation-role", name="organisation_role_index", methods={"GET"})
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->organisationRoleRepository->findAll();
+        return $this->organisationRoleRepository->search($request->query->all());
     }
 
     /**
-     * @Route("/organisation-role/{id}", name="organisation_role_index", methods={"GET"})
+     *
+     * @Route("/organisation-role/{id}", name="organisation_role_get", methods={"GET"})
      */
     public function get($id)
     {

@@ -7,10 +7,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method OrganisationRole|null find($id, $lockMode = null, $lockVersion = null)
- * @method OrganisationRole|null findOneBy(array $criteria, array $orderBy = null)
- * @method OrganisationRole[]    findAll()
- * @method OrganisationRole[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Class OrganisationRoleRepository
+ * @package App\Repository
  */
 class OrganisationRoleRepository extends ServiceEntityRepository
 {
@@ -19,32 +17,39 @@ class OrganisationRoleRepository extends ServiceEntityRepository
         parent::__construct($registry, OrganisationRole::class);
     }
 
-    // /**
-    //  * @return OrganisationRole[] Returns an array of OrganisationRole objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function search(array $search)
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $query = $this->createQueryBuilder('o');
 
-    /*
-    public function findOneBySomeField($value): ?OrganisationRole
+        $query->andWhere('o.deleted = 0');
+
+        if (isset($search['organisation_id'])) {
+            $query->andWhere('o.organisation = :organisation_id')
+                ->setParameter('organisation_id', (int)$search['organisation_id']);
+        }
+
+        if (isset($search['contact_id'])) {
+            $query->andWhere('o.contact = :contact_id')
+                ->setParameter('contact_id', (int)$search['contact_id']);
+        }
+
+        return $query->getQuery()
+            ->getResult();
+    }
+
+
+    public function findOne($id): ?OrganisationRole
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('o.deleted = 0')
+            ->andWhere('o.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

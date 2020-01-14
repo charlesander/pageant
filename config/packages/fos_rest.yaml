@@ -2,10 +2,9 @@
 fos_rest:
     routing_loader:
         include_format: true
-        default_format: json
     format_listener:
         rules:
-            - { path: ^/, prefer_extension: true, fallback_format: json, priorities: [ json ] }
+            - { path: ^/, prefer_extension: true, fallback_format: json, priorities: [  json ] }
     view:
         view_response_listener:
             enabled: true

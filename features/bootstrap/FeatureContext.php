@@ -32,4 +32,12 @@ class FeatureContext implements Context
             )
         ;
     }
+
+    /**
+     * @Given there are Contacts with the following details:
+     */
+    public function thereAreContactsWithTheFollowingDetails(TableNode $table)
+    {
+        throw new PendingException();
+    }
 }
