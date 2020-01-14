@@ -24,6 +24,7 @@ class InitDatabaseCommand extends Command
     {
         //Init the database
         $returnCode = $this->runCommand($output, 'doctrine:database:create', []);
+
         if ($returnCode) {
             return $returnCode;
         }
@@ -33,6 +34,7 @@ class InitDatabaseCommand extends Command
             'command' => 'doctrine:database:import',
             'file' => 'src/Seeds/countries.sql'
         ]);
+
         if ($returnCode) {
             return $returnCode;
         }
@@ -42,6 +44,7 @@ class InitDatabaseCommand extends Command
             'command' => 'doctrine:database:import',
             'file' => 'src/Seeds/test_manager_contact_edited.sql'
         ]);
+
         if ($returnCode) {
             return $returnCode;
         }
@@ -57,14 +60,16 @@ class InitDatabaseCommand extends Command
          *
          * 2) Rename the tables in case they clash with the entity generated schemas
          * 3) Generate tables from entities
+         * 4) Populate users table from original seed table
+         * 5) Populate country table from original seed table
+         * 6) Populate organisation table from original seed table
+         * 7) Populate contact table from original seed table
+         * 8) Populate organisation_role table from original seed table
+         * 9) Remove original seed tables - they are not needed anymore
          */
-       $returnCode = $this->runCommand($output, 'doctrine:migrations:migrate', [
-           '20200114001113'
-       ]);
-       if ($returnCode) {
-           return $returnCode;
-       }
-
+        $returnCode = $this->runCommand($output, 'doctrine:migrations:migrate', [
+            '20200114025827'
+        ]);
 
         return $returnCode;
     }

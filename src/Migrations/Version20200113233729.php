@@ -1,23 +1,20 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20200113233729 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Rename the tables in case they clash with the entity generated schemas';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql',
             'Migration can only be executed safely on \'mysql\'.');
@@ -26,7 +23,7 @@ final class Version20200113233729 extends AbstractMigration
         $this->addSql('RENAME TABLE countries TO _countries;');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql',
             'Migration can only be executed safely on \'mysql\'.');
