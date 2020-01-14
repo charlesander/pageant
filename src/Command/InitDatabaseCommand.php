@@ -46,34 +46,24 @@ class InitDatabaseCommand extends Command
             return $returnCode;
         }
 
-        // Data cleaning:
-        // Change the country_id in organisation to match the corresponding country record
-        // in the countries table
-        // 61 -> 232 = United States
-        // 127 -> 38 = Canada
-        // 158 -> 14 = Austria
-        // 173 -> 13 = Australia
-        $returnCode = $this->runCommand($output, 'doctrine:query:sql', [
-            'command' => 'doctrine:query:sql',
-            'sql' => 'update organisation set country_id = 232 where country_id = 61;
-            update organisation set country_id = 38 where country_id = 127;
-            update organisation set country_id = 14 where country_id = 158;
-            update organisation set country_id = 13 where country_id = 173;'
-        ]);
-        if ($returnCode) {
-            return $returnCode;
-        }
-
-        //Rename the tables in case they clash with the entity generated schemas
-        $returnCode = $this->runCommand($output, 'doctrine:query:sql', [
-            'command' => 'doctrine:query:sql',
-            'sql' => 'RENAME TABLE organisation_contact TO _organisation_contact;
-            RENAME TABLE organisation TO _organisation;
-            RENAME TABLE countries TO _countries;'
-        ]);
-        if ($returnCode) {
-            return $returnCode;
-        }
+        /**
+         * 1) Data cleaning:
+         * Change the country_id in organisation to match the corresponding country record
+         * in the countries table
+         * 61 -> 232 = United States
+         * 127 -> 38 = Canada
+         * 158 -> 14 = Austria
+         * 173 -> 13 = Australia
+         *
+         * 2) Rename the tables in case they clash with the entity generated schemas
+         * 3) Generate tables from entities
+         */
+       $returnCode = $this->runCommand($output, 'doctrine:migrations:migrate', [
+           '20200114001113'
+       ]);
+       if ($returnCode) {
+           return $returnCode;
+       }
 
 
         return $returnCode;
